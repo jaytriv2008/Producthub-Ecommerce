@@ -1,0 +1,57 @@
+.skeleton-card {
+  overflow: hidden;
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: white;
+}
+
+.skeleton-image,
+.skeleton-line {
+  background: linear-gradient(
+    90deg,
+    #EAEAEA 25%,
+    #F5F5F5 50%,
+    #EAEAEA 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s infinite;
+}
+
+.skeleton-image {
+  height: 190px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+}
+
+.skeleton-line {
+  height: 12px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+}
+
+.skeleton-category {
+  width: 35%;
+}
+
+.skeleton-title {
+  width: 85%;
+  height: 16px;
+}
+
+.skeleton-price {
+  width: 45%;
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-image,
+  .skeleton-line {
+    animation: none;
+  }
+}

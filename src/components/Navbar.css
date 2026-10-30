@@ -1,0 +1,142 @@
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.navbar-container {
+  width: min(var(--container-width), calc(100% - 40px));
+  min-height: 76px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.navbar-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--color-secondary);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+  white-space: nowrap;
+}
+
+.logo-highlight {
+  color: #A88410;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.navbar-links a {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.navbar-links a:hover,
+.navbar-links a.active {
+  color: var(--color-secondary);
+}
+
+.navbar-links a.active {
+  font-weight: 700;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navbar-search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 210px;
+  padding: 10px 13px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  transition: border-color var(--transition);
+}
+
+.navbar-search:hover {
+  border-color: var(--color-secondary);
+}
+
+.navbar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-secondary);
+  transition: color var(--transition);
+}
+
+.navbar-icon:hover {
+  color: #A88410;
+}
+
+.mobile-menu-button {
+  display: none;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  color: var(--color-secondary);
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    min-height: 68px;
+    gap: 14px;
+  }
+
+  .navbar-links {
+    display: none;
+  }
+
+  .navbar-actions {
+    gap: 14px;
+  }
+
+  .navbar-search {
+    min-width: auto;
+    padding: 8px;
+  }
+
+  .navbar-search span {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .navbar-container {
+    width: calc(100% - 24px);
+  }
+
+  .navbar-logo {
+    font-size: 1.1rem;
+    gap: 5px;
+  }
+
+  .navbar-actions {
+    gap: 10px;
+  }
+}
