@@ -1,17 +1,22 @@
+
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Navbar from './components/navbar';
 import Footer from './components/Footer';
 
-import Home from './pages/Home';
-import Products from './pages/Products';
-import ProductDetails from './pages/ProductDetails';
-import Cart from './pages/Cart';
-import Wishlist from './pages/Wishlist';
-import PlaceholderPage from './pages/PlaceholderPage';
+import PageLoader from './components/PageLoader';
 
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
+
+// Lazy-loaded pages
+const Home = lazy(() => import('./pages/Home'));
+const Products = lazy(() => import('./pages/Products'));
+const ProductDetails = lazy(() => import('./pages/ProductDetails'));
+const Cart = lazy(() => import('./pages/Cart'));
+const Wishlist = lazy(() => import('./pages/Wishlist'));
+const PlaceholderPage = lazy(() => import('./pages/PlaceholderPage'));
 
 function App() {
   return (
@@ -20,23 +25,25 @@ function App() {
         <BrowserRouter>
           <Navbar />
 
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<ProductDetails />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/wishlist" element={<Wishlist />} />
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/:id" element={<ProductDetails />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/wishlist" element={<Wishlist />} />
 
-            <Route
-              path="*"
-              element={
-                <PlaceholderPage
-                  title="Page not found"
-                  description="The page you are looking for does not exist."
-                />
-              }
-            />
-          </Routes>
+              <Route
+                path="*"
+                element={
+                  <PlaceholderPage
+                    title="Page not found"
+                    description="The page you are looking for does not exist."
+                  />
+                }
+              />
+            </Routes>
+          </Suspense>
 
           <Footer />
         </BrowserRouter>

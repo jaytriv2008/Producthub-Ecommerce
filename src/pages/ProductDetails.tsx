@@ -199,9 +199,12 @@ const ProductDetails = () => {
             {/* Main image */}
             <div className="product-main-image">
               {selectedImage ? (
-                <img
-                  src={selectedImage}
-                  alt={product.title}
+             <img
+                 src={selectedImage}
+                 alt={product.title}
+                  loading="eager"
+                 fetchPriority="high"
+                  decoding="async" 
                   onError={(event) => {
                     event.currentTarget.style.display = 'none';
                   }}
@@ -233,9 +236,11 @@ const ProductDetails = () => {
                     aria-label={`View product image ${index + 1}`}
                   >
                     <img
-                      src={image}
-                      alt={`${product.title} - Image ${index + 1}`}
-                    />
+                       src={image}
+                       alt={`${product.title} - Image ${index + 1}`}
+                       loading="lazy"
+                       decoding="async"
+                       /> 
                   </button>
                 ))}
               </div>

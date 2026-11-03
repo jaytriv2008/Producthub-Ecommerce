@@ -9,6 +9,7 @@ import { useWishlist } from '../context/WishlistContext';
 
 import './ProductCard.css';
 import type { MouseEvent } from 'react';
+import { memo } from 'react';
 
 interface ProductCardProps {
   product: Product;
@@ -34,8 +35,11 @@ const handleAction = (
         <img
           src={product.thumbnail}
           alt={product.title}
-          loading="lazy"
-          onError={(event) => {
+           loading="lazy"
+           decoding="async"
+           width="400"
+            height="400"
+           onError={(event) => {
             event.currentTarget.onerror = null;
             event.currentTarget.src =
               'https://placehold.co/600x400/F5F5F5/333333?text=Image+Unavailable';
@@ -103,4 +107,4 @@ const handleAction = (
   );
 }
 
-export default ProductCard;
+export default memo(ProductCard);
