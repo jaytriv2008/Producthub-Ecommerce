@@ -1,5 +1,7 @@
+
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+
 import {
   ArrowLeft,
   ShoppingCart,
@@ -12,14 +14,24 @@ import {
 } from 'lucide-react';
 
 import { fetchProductById } from '../services/productService';
-
 import type { Product } from '../types/product';
 
 import ProductSkeleton from '../components/ProductSkeleton';
 
+import { useWishlist } from '../context/WishlistContext';
+import { useCart } from '../context/CartContext';
+
 import './ProductDetails.css';
 
 const ProductDetails = () => {
+  // Context hooks must be called inside the component.
+  const { addToCart } = useCart();
+
+  const {
+    toggleWishlist,
+    isInWishlist,
+  } = useWishlist();
+
   const { id } = useParams<{ id: string }>();
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -30,6 +42,7 @@ const ProductDetails = () => {
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
 
+  // Fetch product details.
   useEffect(() => {
     const controller = new AbortController();
 
@@ -59,7 +72,11 @@ const ProductDetails = () => {
         if (controller.signal.aborted) return;
 
         setProduct(data);
-        setSelectedImage(data.thumbnail || data.images?.[0] || '');
+
+        setSelectedImage(
+          data.thumbnail || data.images?.[0] || '',
+        );
+
         setQuantity(1);
       } catch (err) {
         if (controller.signal.aborted) return;
@@ -81,17 +98,19 @@ const ProductDetails = () => {
     return () => controller.abort();
   }, [id, retryCount]);
 
+  // Increase quantity.
   const increaseQuantity = () => {
     if (product && quantity < product.stock) {
       setQuantity((current) => current + 1);
     }
   };
 
+  // Decrease quantity.
   const decreaseQuantity = () => {
     setQuantity((current) => Math.max(1, current - 1));
   };
 
-  // Loading state
+  // Loading state.
   if (loading) {
     return (
       <main className="product-details-page">
@@ -102,13 +121,14 @@ const ProductDetails = () => {
     );
   }
 
-  // Error state
+  // Error state.
   if (error || !product) {
     return (
       <main className="product-details-page">
         <div className="container">
           <div className="product-details-error" role="alert">
             <Package size={42} />
+
             <h1>Product Not Found</h1>
 
             <p>
@@ -133,6 +153,7 @@ const ProductDetails = () => {
     );
   }
 
+  // Product images.
   const images = Array.from(
     new Set(
       [product.thumbnail, ...product.images].filter(
@@ -141,11 +162,15 @@ const ProductDetails = () => {
     ),
   );
 
+  // Product pricing.
   const discountedPrice =
     product.price -
     (product.price * product.discountPercentage) / 100;
 
   const outOfStock = product.stock <= 0;
+
+  // Wishlist status.
+  const saved = isInWishlist(product.id);
 
   return (
     <main className="product-details-page">
@@ -171,11 +196,15 @@ const ProductDetails = () => {
           {/* Product images */}
           <div className="product-gallery">
 
+            {/* Main image */}
             <div className="product-main-image">
               {selectedImage ? (
                 <img
                   src={selectedImage}
                   alt={product.title}
+                  onError={(event) => {
+                    event.currentTarget.style.display = 'none';
+                  }}
                 />
               ) : (
                 <div className="product-image-fallback">
@@ -195,18 +224,17 @@ const ProductDetails = () => {
               <div className="product-thumbnail-list">
                 {images.map((image, index) => (
                   <button
+                    key={`${image}-${index}`}
                     type="button"
-                    key={image}
                     className={`product-thumbnail ${
-                      selectedImage === image ? 'selected' : ''
+                      selectedImage === image ? 'active' : ''
                     }`}
                     onClick={() => setSelectedImage(image)}
                     aria-label={`View product image ${index + 1}`}
-                    aria-pressed={selectedImage === image}
                   >
                     <img
                       src={image}
-                      alt={`${product.title} view ${index + 1}`}
+                      alt={`${product.title} - Image ${index + 1}`}
                     />
                   </button>
                 ))}
@@ -223,15 +251,14 @@ const ProductDetails = () => {
 
             <h1>{product.title}</h1>
 
+            {/* Rating */}
             <div className="product-details-rating">
-              <Star
-                size={18}
-                fill="currentColor"
-              />
+              <Star size={18} fill="currentColor" />
               <strong>{product.rating.toFixed(1)}</strong>
               <span>Customer rating</span>
             </div>
 
+            {/* Description */}
             <p className="product-details-description">
               {product.description}
             </p>
@@ -263,6 +290,7 @@ const ProductDetails = () => {
               </div>
             )}
 
+            {/* Category */}
             <div className="product-detail-info">
               <span>Category</span>
               <strong>
@@ -277,7 +305,13 @@ const ProductDetails = () => {
                 color={outOfStock ? '#BE123C' : '#238636'}
               />
 
-              <span className={outOfStock ? 'stock-unavailable' : 'stock-available'}>
+              <span
+                className={
+                  outOfStock
+                    ? 'stock-unavailable'
+                    : 'stock-available'
+                }
+              >
                 {outOfStock
                   ? 'Out of stock'
                   : `${product.stock} units available`}
@@ -303,7 +337,9 @@ const ProductDetails = () => {
                 <button
                   type="button"
                   onClick={increaseQuantity}
-                  disabled={outOfStock || quantity >= product.stock}
+                  disabled={
+                    outOfStock || quantity >= product.stock
+                  }
                   aria-label="Increase quantity"
                 >
                   <Plus size={16} />
@@ -311,43 +347,49 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            {/* Action buttons */}
+            {/* Cart and Wishlist actions */}
             <div className="product-details-actions">
+
+              {/* Add to Cart */}
               <button
                 type="button"
                 className="product-details-cart-button"
                 disabled={outOfStock}
-                onClick={() => {
-                  // Cart functionality will be connected on Day 6.
-                  alert(
-                    'Cart functionality will be available in Day 6.',
-                  );
-                }}
+                onClick={() => addToCart(product, quantity)}
               >
                 <ShoppingCart size={19} />
                 Add to Cart
               </button>
 
+              {/* Wishlist */}
               <button
                 type="button"
                 className="product-details-wishlist-button"
-                aria-label="Add to wishlist"
-                onClick={() => {
-                  // Wishlist functionality will be connected on Day 6.
-                  alert(
-                    'Wishlist functionality will be available in Day 6.',
-                  );
-                }}
+                aria-label={
+                  saved
+                    ? 'Remove from wishlist'
+                    : 'Add to wishlist'
+                }
+                aria-pressed={saved}
+                onClick={() => toggleWishlist(product)}
               >
-                <Heart size={21} />
+                <Heart
+                  size={21}
+                  fill={saved ? 'currentColor' : 'none'}
+                  color={saved ? '#BE123C' : 'currentColor'}
+                />
               </button>
             </div>
 
+            {/* Delivery note */}
             <div className="product-delivery-note">
               <Package size={21} />
+
               <div>
                 <strong>ProductHub Shopping</strong>
-                <p>Explore more products from our collection.</p>
+                <p>
+                  Explore more products from our collection.
+                </p>
               </div>
             </div>
 

@@ -1,13 +1,33 @@
 
 import { Heart, ShoppingCart, Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
 import type { Product } from '../types/product';
+
+import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
+
 import './ProductCard.css';
+import type { MouseEvent } from 'react';
 
 interface ProductCardProps {
   product: Product;
 }
 
 function ProductCard({ product }: ProductCardProps) {
+  const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const navigate = useNavigate();
+
+  const saved = isInWishlist(product.id);
+const handleAction = (
+  event: MouseEvent<HTMLButtonElement>,
+  action: () => void,
+) => {
+  event.preventDefault();
+  event.stopPropagation();
+  action();
+};
   return (
     <article className="product-card">
       <div className="product-card-image">
@@ -25,9 +45,21 @@ function ProductCard({ product }: ProductCardProps) {
         <button
           type="button"
           className="product-wishlist"
-          aria-label={`Add ${product.title} to wishlist`}
+          aria-label={
+            saved
+              ? `Remove ${product.title} from wishlist`
+              : `Add ${product.title} to wishlist`
+          }
+          aria-pressed={saved}
+          onClick={(event) =>
+            handleAction(event, () => toggleWishlist(product))
+          }
         >
-          <Heart size={19} />
+          <Heart
+            size={19}
+            fill={saved ? 'currentColor' : 'none'}
+            color={saved ? '#BE123C' : 'currentColor'}
+          />
         </button>
 
         <span
@@ -59,6 +91,9 @@ function ProductCard({ product }: ProductCardProps) {
             className="product-add-button"
             disabled={product.stock <= 0}
             aria-label={`Add ${product.title} to cart`}
+            onClick={(event) =>
+              handleAction(event, () => addToCart(product))
+            }
           >
             <ShoppingCart size={18} />
           </button>

@@ -1,13 +1,19 @@
+
 import { Link, NavLink } from 'react-router-dom';
 import { ShoppingBag } from 'lucide-react';
+
+import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
+
 import './Navbar.css';
 
 function Navbar() {
+  const { cartCount } = useCart();
+  const { wishlistCount } = useWishlist();
+
   return (
     <header className="navbar">
       <div className="navbar-container">
-
-        {/* Brand Logo - Left Side */}
         <Link to="/" className="navbar-logo">
           <ShoppingBag size={25} strokeWidth={2.2} />
           <span>
@@ -26,13 +32,18 @@ function Navbar() {
 
           <NavLink to="/wishlist">
             Wishlist
+            {wishlistCount > 0 && (
+              <span className="nav-count">{wishlistCount}</span>
+            )}
           </NavLink>
 
           <NavLink to="/cart">
             Cart
+            {cartCount > 0 && (
+              <span className="nav-count">{cartCount}</span>
+            )}
           </NavLink>
         </nav>
-
       </div>
     </header>
   );
