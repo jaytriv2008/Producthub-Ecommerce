@@ -90,21 +90,22 @@ const handleAction = (
             ${product.price.toFixed(2)}
           </span>
 
-          <button
-            type="button"
-            className="product-add-button"
-            disabled={product.stock <= 0}
-            aria-label={`Add ${product.title} to cart`}
-            onClick={(event) =>
-              handleAction(event, () => addToCart(product))
-            }
-          >
-            <ShoppingCart size={18} />
-          </button>
+      <button
+         type="button"
+         className="product-add-button"
+         disabled={product.stock <= 0}
+         aria-label={
+         product.stock <= 0
+          ? `${product.title} is out of stock`
+         : `Add ${product.title} to cart`
+         }
+       >
+     <ShoppingCart size={18} aria-hidden="true" />
+     </button>
         </div>
       </div>
     </article>
   );
 }
 
-export default memo(ProductCard);
+export default memo(ProductCard); 

@@ -9,6 +9,7 @@ import PageLoader from './components/PageLoader';
 
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Lazy-loaded pages
 const Home = lazy(() => import('./pages/Home'));
@@ -20,6 +21,7 @@ const PlaceholderPage = lazy(() => import('./pages/PlaceholderPage'));
 
 function App() {
   return (
+    <ErrorBoundary>
     <CartProvider>
       <WishlistProvider>
         <BrowserRouter>
@@ -49,6 +51,7 @@ function App() {
         </BrowserRouter>
       </WishlistProvider>
     </CartProvider>
+    </ErrorBoundary>
   );
 }
 

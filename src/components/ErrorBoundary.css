@@ -1,0 +1,46 @@
+
+.error-boundary {
+  min-height: 65vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  padding: 30px 20px;
+  color: #111111;
+}
+
+.error-boundary > svg {
+  color: #BE123C;
+}
+
+.error-boundary h1 {
+  margin: 0;
+}
+
+.error-boundary p {
+  color: #666666;
+  max-width: 400px;
+}
+
+.error-boundary button {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 8px;
+  background: #111111;
+  color: white;
+  cursor: pointer;
+}
+
+.error-boundary button:hover {
+  background: #333333;
+}
+
+.error-boundary button:focus-visible {
+  outline: 3px solid #D4AF37;
+  outline-offset: 4px;
+}

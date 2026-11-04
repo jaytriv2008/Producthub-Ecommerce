@@ -22,6 +22,11 @@ import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
 
 import './ProductDetails.css';
+import {
+  calculateDiscountedPrice,
+  formatCategory,
+  formatPrice,
+} from '../utils/productUtils';
 
 const ProductDetails = () => {
   // Context hooks must be called inside the component.
@@ -163,9 +168,10 @@ const ProductDetails = () => {
   );
 
   // Product pricing.
-  const discountedPrice =
-    product.price -
-    (product.price * product.discountPercentage) / 100;
+  const discountedPrice = calculateDiscountedPrice(
+  product.price,
+  product.discountPercentage,
+ );
 
   const outOfStock = product.stock <= 0;
 
