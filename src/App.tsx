@@ -6,6 +6,7 @@ import Navbar from './components/navbar';
 import Footer from './components/Footer';
 
 import PageLoader from './components/PageLoader';
+import ScrollToTop from './components/ScrollToTop';
 
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
@@ -25,7 +26,10 @@ function App() {
     <CartProvider>
       <WishlistProvider>
         <BrowserRouter>
+         <ScrollToTop/>
           <Navbar />
+          
+          
 
           <Suspense fallback={<PageLoader />}>
             <Routes>
@@ -46,8 +50,9 @@ function App() {
               />
             </Routes>
           </Suspense>
-
+          
           <Footer />
+          
         </BrowserRouter>
       </WishlistProvider>
     </CartProvider>

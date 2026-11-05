@@ -169,9 +169,9 @@ const ProductDetails = () => {
 
   // Product pricing.
   const discountedPrice = calculateDiscountedPrice(
-  product.price,
-  product.discountPercentage,
- );
+    product.price,
+    product.discountPercentage,
+  );
 
   const outOfStock = product.stock <= 0;
 
@@ -205,14 +205,14 @@ const ProductDetails = () => {
             {/* Main image */}
             <div className="product-main-image">
               {selectedImage ? (
-             <img
-                 src={selectedImage}
-                 alt={product.title}
+                <img
+                  src={selectedImage}
+                  alt={product.title}
                   loading="eager"
-                 fetchPriority="high"
-                  decoding="async" 
                   onError={(event) => {
-                    event.currentTarget.style.display = 'none';
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src =
+                      'https://placehold.co/600x400/F5F5F5/333333?text=Image+Unavailable';
                   }}
                 />
               ) : (
@@ -235,18 +235,21 @@ const ProductDetails = () => {
                   <button
                     key={`${image}-${index}`}
                     type="button"
-                    className={`product-thumbnail ${
-                      selectedImage === image ? 'active' : ''
-                    }`}
+                    className={`product-thumbnail ${selectedImage === image ? 'active' : ''
+                      }`}
                     onClick={() => setSelectedImage(image)}
                     aria-label={`View product image ${index + 1}`}
                   >
                     <img
-                       src={image}
-                       alt={`${product.title} - Image ${index + 1}`}
-                       loading="lazy"
-                       decoding="async"
-                       /> 
+                      src={image}
+                      alt={`${product.title} view ${index + 1}`}
+                      loading="lazy"
+                      onError={(event) => {
+                        event.currentTarget.onerror = null;
+                        event.currentTarget.src =
+                          'https://placehold.co/150x150/F5F5F5/333333?text=No+Image';
+                      }}
+                    />
                   </button>
                 ))}
               </div>

@@ -246,10 +246,7 @@ const Home = () => {
           </Link>
         </div>
 
-        <div className="promo-mark">
-          <span>PH</span>
-          <i>✦</i>
-        </div>
+       
       </section>
     </main>
   );

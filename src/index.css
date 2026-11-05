@@ -210,3 +210,132 @@ button:disabled {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* =================================
+   DAY 9 - RESPONSIVE IMPROVEMENTS
+================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .container {
+    width: min(100% - 40px, 960px);
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .product-details-layout {
+    gap: 30px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .container {
+    width: calc(100% - 32px);
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .products-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .products-search {
+    width: 100%;
+  }
+
+  .products-sort {
+    width: 100%;
+  }
+
+  .products-filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-details-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .product-details-actions {
+    width: 100%;
+  }
+
+  .product-details-cart-button {
+    flex: 1;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .container {
+    width: calc(100% - 24px);
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .products-page-heading h1 {
+    font-size: 1.8rem;
+  }
+
+  .product-card {
+    width: 100%;
+  }
+
+  .product-details-content h1 {
+    font-size: 1.7rem;
+  }
+
+  .product-thumbnail-list {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .product-details-actions {
+    gap: 10px;
+  }
+}
+
+/* Prevent long content from breaking layouts */
+.product-title,
+.product-details-content h1 {
+  overflow-wrap: anywhere;
+}
+
+input,
+select,
+textarea {
+  max-width: 100%;
+}

@@ -339,31 +339,7 @@
   margin-top: 8px;
 }
 
-.promo-mark {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 180px;
-  height: 180px;
-  flex-shrink: 0;
-  border: 1px solid #D7C37D;
-  border-radius: 50%;
-  color: #A88410;
-}
 
-.promo-mark span {
-  font-size: 3rem;
-  font-weight: 800;
-  letter-spacing: -.08em;
-}
-
-.promo-mark i {
-  position: absolute;
-  top: 19px;
-  right: 22px;
-  font-size: 1.7rem;
-  font-style: normal;
-}
 
 @media (max-width: 900px) {
   .hero-inner {
