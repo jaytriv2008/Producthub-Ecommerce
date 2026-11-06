@@ -1,0 +1,124 @@
+
+.not-found-page {
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: #FAFAFA;
+  text-align: center;
+}
+
+.not-found-content {
+  max-width: 550px;
+  width: 100%;
+}
+
+.not-found-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #111111;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 25px;
+}
+
+.logo-highlight {
+  color: #D4AF37;
+}
+
+.error-code {
+  font-size: clamp(100px, 20vw, 180px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -8px;
+  color: #111111;
+  margin: 0;
+}
+
+.not-found-content h2 {
+  font-size: 30px;
+  color: #111111;
+  margin: 20px 0 12px;
+}
+
+.not-found-content p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #666666;
+  margin-bottom: 30px;
+}
+
+.not-found-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.home-button,
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 22px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.home-button {
+  background-color: #111111;
+  color: #FFFFFF;
+  border: 1px solid #111111;
+}
+
+.home-button:hover {
+  background-color: #D4AF37;
+  border-color: #D4AF37;
+  color: #111111;
+}
+
+.back-button {
+  background-color: transparent;
+  color: #111111;
+  border: 1px solid #CCCCCC;
+}
+
+.back-button:hover {
+  border-color: #D4AF37;
+  color: #A88719;
+}
+
+.error-message {
+  display: block;
+  margin-top: 35px;
+  font-size: 12px;
+  color: #999999;
+}
+
+@media (max-width: 480px) {
+  .not-found-content h2 {
+    font-size: 24px;
+  }
+
+  .not-found-content p {
+    font-size: 14px;
+  }
+
+  .not-found-buttons {
+    flex-direction: column;
+  }
+
+  .home-button,
+  .back-button {
+    width: 100%;
+  }
+}

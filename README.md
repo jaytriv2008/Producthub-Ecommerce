@@ -180,9 +180,8 @@ Follow these steps to run ProductHub locally.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/jaytriv2008/Producthub-Ecommerce
+git clone https://github.com/jaytriv2008/Producthub-Ecommerce.git
 ```
-
 ### 2. Navigate to the Project Directory
 
 ```bash
