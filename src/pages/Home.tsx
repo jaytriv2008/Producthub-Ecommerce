@@ -14,6 +14,8 @@ import ProductCard from '../components/ProductCard';
 import ProductLoadingPlaceholder from '../components/ProductSkeleton';
 import { fetchProducts } from '../services/productService';
 import type { Product } from '../types/product';
+import { useToast } from '../context/ToastContext';
+
 
 import './Home.css';
 
@@ -187,7 +189,7 @@ const Home = () => {
             </Link>
           </div>
 
-          {loading && <ProductLoadingPlaceholder count={4} />}
+
 
           {!loading && error && (
             <div className="product-api-message" role="alert">
@@ -195,11 +197,11 @@ const Home = () => {
               <p>{error}</p>
 
               <Button
-               type="button"
-               className="product-api-retry"
-               onClick={() => setRetryCount((count) => count + 1)}
-            >
-               Try again
+                type="button"
+                className="product-api-retry"
+                onClick={() => setRetryCount((count) => count + 1)}
+              >
+                Try again
               </Button>
             </div>
           )}
@@ -246,7 +248,7 @@ const Home = () => {
           </Link>
         </div>
 
-       
+
       </section>
     </main>
   );

@@ -11,6 +11,7 @@ import {
 import { useCart } from '../context/CartContext';
 
 import './Cart.css';
+import { useToast } from '../context/ToastContext';
 
 const Cart = () => {
   const {
@@ -20,7 +21,23 @@ const Cart = () => {
     clearCart,
     cartCount,
     cartTotal,
+
   } = useCart();
+
+
+  const { showToast } = useToast();
+
+  const handleRemoveFromCart = (productId: number) => {
+    removeFromCart(productId);
+    showToast('Product removed from cart');
+  };
+
+  const handleClearCart = () => {
+    if (cartItems.length === 0) return;
+
+    clearCart();
+    showToast('Cart cleared successfully');
+  };
 
   return (
     <main className="cart-page">
@@ -113,7 +130,7 @@ const Cart = () => {
                       <button
                         type="button"
                         className="cart-remove-button"
-                        onClick={() => removeFromCart(product.id)}
+                        onClick={() => handleRemoveFromCart(product.id)}
                         aria-label={`Remove ${product.title}`}
                       >
                         <Trash2 size={19} />

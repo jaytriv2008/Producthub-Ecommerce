@@ -152,3 +152,76 @@
   font-size: 11px;
   font-weight: 700;
 }
+
+/* =====================================
+   MOBILE FIXED NAVBAR
+===================================== */
+
+@media (max-width: 520px) {
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 5%);
+  }
+
+  .navbar-container {
+    width: calc(100% - 20px);
+    min-height: 88px;
+    padding: 10px 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .navbar-logo {
+    font-size: 1.12rem;
+  }
+
+  .navbar-logo svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .navbar-links {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  .navbar-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navbar-links a {
+    flex: 0 0 auto;
+    font-size: 0.78rem;
+  }
+
+  .navbar-links a::after {
+    bottom: -5px;
+  }
+
+  body {
+    padding-top: 88px;
+  }
+}
+
+@media (max-width: 350px) {
+  .navbar-links {
+    gap: 7px;
+  }
+
+  .navbar-links a {
+    font-size: 0.72rem;
+  }
+}

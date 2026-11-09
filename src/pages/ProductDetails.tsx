@@ -1,6 +1,7 @@
-
-import { useEffect, useState } from 'react';
+import { useToast } from '../context/ToastContext';
+import { useEffect, useState, type MouseEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
+
 
 import {
   ArrowLeft,
@@ -12,6 +13,7 @@ import {
   CheckCircle,
   Package,
 } from 'lucide-react';
+
 
 import { fetchProductById } from '../services/productService';
 import type { Product } from '../types/product';
@@ -28,9 +30,11 @@ import {
   formatPrice,
 } from '../utils/productUtils';
 
+
 const ProductDetails = () => {
   // Context hooks must be called inside the component.
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
+  const { showToast } = useToast();
 
   const {
     toggleWishlist,
@@ -115,17 +119,34 @@ const ProductDetails = () => {
     setQuantity((current) => Math.max(1, current - 1));
   };
 
+  const [zoomPosition, setZoomPosition] = useState({
+    x: 50,
+    y: 50,
+  });
+
+  const [mobileZoom, setMobileZoom] = useState(false);
+
+  const handleImageMouseMove = (
+    event: MouseEvent<HTMLDivElement>,
+  ) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+
+    setZoomPosition({
+      x: ((event.clientX - rect.left) / rect.width) * 100,
+      y: ((event.clientY - rect.top) / rect.height) * 100,
+    });
+  };
+
   // Loading state.
   if (loading) {
     return (
       <main className="product-details-page">
         <div className="container">
-          <ProductSkeleton count={1} />
+          <ProductSkeleton />
         </div>
       </main>
     );
   }
-
   // Error state.
   if (error || !product) {
     return (
@@ -177,7 +198,9 @@ const ProductDetails = () => {
 
   // Wishlist status.
   const saved = isInWishlist(product.id);
-
+  const isAddedToCart = cartItems.some(
+    (item) => item.product.id === product.id,
+  );
   return (
     <main className="product-details-page">
       <div className="container">
@@ -209,6 +232,9 @@ const ProductDetails = () => {
                   src={selectedImage}
                   alt={product.title}
                   loading="eager"
+                  style={{
+                    transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                  }}
                   onError={(event) => {
                     event.currentTarget.onerror = null;
                     event.currentTarget.src =
@@ -369,10 +395,19 @@ const ProductDetails = () => {
                 type="button"
                 className="product-details-cart-button"
                 disabled={outOfStock}
-                onClick={() => addToCart(product, quantity)}
+                onClick={() => {
+                  addToCart(product);
+                  showToast('Product added to cart');
+                }}
+
               >
-                <ShoppingCart size={19} />
-                Add to Cart
+                {isAddedToCart ? (
+                  <CheckCircle size={19} />
+                ) : (
+                  <ShoppingCart size={19} />
+                )}
+
+                {isAddedToCart ? 'Added to Cart' : 'Add to Cart'}
               </button>
 
               {/* Wishlist */}
@@ -385,7 +420,16 @@ const ProductDetails = () => {
                     : 'Add to wishlist'
                 }
                 aria-pressed={saved}
-                onClick={() => toggleWishlist(product)}
+                onClick={() => {
+                  toggleWishlist(product);
+
+                  showToast(
+                    saved
+                      ? 'Product removed from wishlist'
+                      : 'Product added to wishlist'
+                  );
+                }}
+                
               >
                 <Heart
                   size={21}

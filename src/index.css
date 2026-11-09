@@ -339,3 +339,163 @@ select,
 textarea {
   max-width: 100%;
 }
+
+/* =====================================
+   PRODUCTHUB - GLOBAL RESPONSIVE FIX
+===================================== */
+
+:root {
+  --transition: 180ms ease;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+
+.container {
+  width: min(1200px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.product-grid,
+.cart-layout,
+.cart-item,
+.wishlist-grid,
+.product-details-layout,
+.product-gallery,
+.product-details-content {
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: calc(100% - 32px);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: calc(100% - 24px);
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .product-card {
+    min-width: 0;
+  }
+
+  .product-card-content {
+    min-width: 0;
+    padding: 10px;
+  }
+
+  .product-title {
+    overflow-wrap: anywhere;
+    font-size: 0.86rem;
+  }
+}
+
+/* =====================================
+   GLOBAL RESPONSIVE FIX
+   Prevent unwanted horizontal scrolling
+===================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Prevent images and media from exceeding screen width */
+img,
+picture,
+video,
+iframe {
+  max-width: 100%;
+}
+
+/* Allow flex and grid children to shrink */
+.row,
+[class*="row"],
+[class*="grid"],
+[class*="flex"] {
+  min-width: 0;
+}
+
+.row > *,
+[class*="row"] > *,
+[class*="grid"] > *,
+[class*="flex"] > * {
+  min-width: 0;
+}
+
+/* Mobile screen adjustments */
+@media screen and (max-width: 768px) {
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  body {
+    min-width: 320px;
+  }
+
+  img,
+  picture,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+
+  input,
+  textarea,
+  select {
+    max-width: 100%;
+    min-width: 0;
+  }
+}

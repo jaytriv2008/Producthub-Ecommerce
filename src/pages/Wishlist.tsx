@@ -6,6 +6,7 @@ import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
 
 import './Wishlist.css';
+import { useToast } from '../context/ToastContext';
 
 const Wishlist = () => {
   const {
@@ -15,6 +16,19 @@ const Wishlist = () => {
   } = useWishlist();
 
   const { addToCart } = useCart();
+  const { showToast } = useToast();
+
+  const handleRemoveFromWishlist = (productId: number) => {
+    removeFromWishlist(productId);
+    showToast('Product removed from wishlist');
+  };
+
+  const handleClearWishlist = () => {
+    if (wishlistItems.length === 0) return;
+
+    clearWishlist();
+    showToast('Wishlist cleared successfully');
+  };
 
   const handleMoveToCart = (productId: number) => {
     const product = wishlistItems.find(
@@ -25,8 +39,9 @@ const Wishlist = () => {
 
     addToCart(product);
     removeFromWishlist(productId);
-  };
 
+    showToast('Product moved to cart');
+  };
   return (
     <main className="wishlist-page">
       <div className="container">
@@ -96,17 +111,13 @@ const Wishlist = () => {
                         onClick={() => handleMoveToCart(product.id)}
                       >
                         <ShoppingCart size={17} />
-                        {product.stock > 0
-                          ? 'Move to Cart'
-                          : 'Out of Stock'}
+                        {product.stock > 0 ? 'Move to Cart' : 'Out of Stock'}
                       </button>
 
                       <button
                         type="button"
                         className="wishlist-remove-button"
-                        onClick={() =>
-                          removeFromWishlist(product.id)
-                        }
+                        onClick={() => handleRemoveFromWishlist(product.id)}
                         aria-label={`Remove ${product.title} from wishlist`}
                       >
                         <Trash2 size={18} />
